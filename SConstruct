@@ -317,8 +317,9 @@ if selected_platform in platform_list:
 
     # Enable C++11 support
     if not env.msvc:
-        env.Append(CXXFLAGS=['-std=c++11'])
-
+#olive> enabled c++14 for gameplay abilities module
+        env.Append(CXXFLAGS=['-std=c++14'])
+#<olive
     # Configure compiler warnings
     if env.msvc:
         # Truncations, narrowing conversions, signed/unsigned comparisons...
