@@ -139,8 +139,6 @@ EditorAssetLibraryItem::EditorAssetLibraryItem() {
 
 	set_custom_minimum_size(Size2(250, 100) * EDSCALE);
 	set_h_size_flags(SIZE_EXPAND_FILL);
-
-	set_mouse_filter(MOUSE_FILTER_PASS);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -812,7 +810,7 @@ void EditorAssetLibrary::_image_request_completed(int p_status, int p_code, cons
 		_image_update(p_code == HTTPClient::RESPONSE_NOT_MODIFIED, true, p_data, p_queue_id);
 
 	} else {
-		WARN_PRINTS("Error getting image file from URL: " + image_queue[p_queue_id].image_url);
+		WARN_PRINT("Error getting image file from URL: " + image_queue[p_queue_id].image_url);
 		Object *obj = ObjectDB::get_instance(image_queue[p_queue_id].target);
 		if (obj) {
 			obj->call("set_image", image_queue[p_queue_id].image_type, image_queue[p_queue_id].image_index, get_icon("FileBrokenBigThumb", "EditorIcons"));
@@ -1455,7 +1453,6 @@ EditorAssetLibrary::EditorAssetLibrary(bool p_templates_only) {
 	library_scroll->add_child(library_vb_border);
 	library_vb_border->add_style_override("panel", border2);
 	library_vb_border->set_h_size_flags(SIZE_EXPAND_FILL);
-	library_vb_border->set_mouse_filter(MOUSE_FILTER_PASS);
 
 	library_vb = memnew(VBoxContainer);
 	library_vb->set_h_size_flags(SIZE_EXPAND_FILL);
