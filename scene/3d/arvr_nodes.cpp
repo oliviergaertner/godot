@@ -252,7 +252,7 @@ void ARVRController::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("get_rumble"), &ARVRController::get_rumble);
 	ClassDB::bind_method(D_METHOD("set_rumble", "rumble"), &ARVRController::set_rumble);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "rumble", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_rumble", "get_rumble");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "rumble", PROPERTY_HINT_RANGE, "0.0,1.0,0.01"), "set_rumble", "get_rumble");
 	ADD_PROPERTY_DEFAULT("rumble", 0.0);
 
 	ClassDB::bind_method(D_METHOD("get_mesh"), &ARVRController::get_mesh);
@@ -300,7 +300,7 @@ int ARVRController::get_joystick_id() const {
 	return tracker->get_joy_id();
 };
 
-int ARVRController::is_button_pressed(int p_button) const {
+bool ARVRController::is_button_pressed(int p_button) const {
 	int joy_id = get_joystick_id();
 	if (joy_id == -1) {
 		return false;
@@ -544,7 +544,7 @@ String ARVROrigin::get_configuration_warning() const {
 void ARVROrigin::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_world_scale", "world_scale"), &ARVROrigin::set_world_scale);
 	ClassDB::bind_method(D_METHOD("get_world_scale"), &ARVROrigin::get_world_scale);
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "world_scale"), "set_world_scale", "get_world_scale");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "world_scale"), "set_world_scale", "get_world_scale");
 };
 
 void ARVROrigin::set_tracked_camera(ARVRCamera *p_tracked_camera) {

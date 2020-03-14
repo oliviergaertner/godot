@@ -49,7 +49,6 @@ class PhysicsBody : public CollisionObject {
 
 protected:
 	static void _bind_methods();
-	void _notification(int p_what);
 	PhysicsBody(PhysicsServer::BodyMode p_mode);
 
 public:
@@ -89,14 +88,6 @@ protected:
 	static void _bind_methods();
 
 public:
-#ifndef DISABLE_DEPRECATED
-	void set_friction(real_t p_friction);
-	real_t get_friction() const;
-
-	void set_bounce(real_t p_bounce);
-	real_t get_bounce() const;
-#endif
-
 	void set_physics_material_override(const Ref<PhysicsMaterial> &p_physics_material_override);
 	Ref<PhysicsMaterial> get_physics_material_override() const;
 
@@ -205,14 +196,6 @@ public:
 	void set_weight(real_t p_weight);
 	real_t get_weight() const;
 
-#ifndef DISABLE_DEPRECATED
-	void set_friction(real_t p_friction);
-	real_t get_friction() const;
-
-	void set_bounce(real_t p_bounce);
-	real_t get_bounce() const;
-#endif
-
 	void set_physics_material_override(const Ref<PhysicsMaterial> &p_physics_material_override);
 	Ref<PhysicsMaterial> get_physics_material_override() const;
 
@@ -296,6 +279,9 @@ public:
 	};
 
 private:
+	Vector3 linear_velocity;
+	Vector3 angular_velocity;
+
 	uint16_t locked_axis;
 
 	float margin;
@@ -319,7 +305,12 @@ protected:
 	void _notification(int p_what);
 	static void _bind_methods();
 
+	virtual void _direct_state_changed(Object *p_state);
+
 public:
+	virtual Vector3 get_linear_velocity() const;
+	virtual Vector3 get_angular_velocity() const;
+
 	bool move_and_collide(const Vector3 &p_motion, bool p_infinite_inertia, Collision &r_collision, bool p_exclude_raycast_shapes = true, bool p_test_only = false);
 	bool test_move(const Transform &p_from, const Vector3 &p_motion, bool p_infinite_inertia);
 

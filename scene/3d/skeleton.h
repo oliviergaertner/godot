@@ -51,6 +51,9 @@ class SkinReference : public Reference {
 	RID skeleton;
 	Ref<Skin> skin;
 	uint32_t bind_count = 0;
+	uint64_t skeleton_version = 0;
+	Vector<uint32_t> skin_bone_indices;
+	uint32_t *skin_bone_indices_ptrs;
 	void _skin_changed();
 
 protected:
@@ -99,7 +102,7 @@ private:
 		PhysicalBone *cache_parent_physical_bone;
 #endif // _3D_DISABLED
 
-		List<uint32_t> nodes_bound;
+		List<ObjectID> nodes_bound;
 
 		Bone() {
 			parent = -1;
@@ -122,6 +125,8 @@ private:
 
 	void _make_dirty();
 	bool dirty;
+
+	uint64_t version;
 
 	// bind helpers
 	Array _get_bound_child_nodes_to_bone(int p_bone) const {

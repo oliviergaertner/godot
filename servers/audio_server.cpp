@@ -30,6 +30,7 @@
 
 #include "audio_server.h"
 
+#include "core/debugger/engine_debugger.h"
 #include "core/io/resource_loader.h"
 #include "core/os/file_access.h"
 #include "core/os/os.h"
@@ -971,7 +972,7 @@ void AudioServer::init() {
 
 	channel_disable_threshold_db = GLOBAL_DEF_RST("audio/channel_disable_threshold_db", -60.0);
 	channel_disable_frames = float(GLOBAL_DEF_RST("audio/channel_disable_time", 2.0)) * get_mix_rate();
-	ProjectSettings::get_singleton()->set_custom_property_info("audio/channel_disable_time", PropertyInfo(Variant::REAL, "audio/channel_disable_time", PROPERTY_HINT_RANGE, "0,5,0.01,or_greater"));
+	ProjectSettings::get_singleton()->set_custom_property_info("audio/channel_disable_time", PropertyInfo(Variant::FLOAT, "audio/channel_disable_time", PROPERTY_HINT_RANGE, "0,5,0.01,or_greater"));
 	buffer_size = 1024; //hardcoded for now
 
 	init_channels_and_buffers();
@@ -992,7 +993,7 @@ void AudioServer::init() {
 
 void AudioServer::update() {
 #ifdef DEBUG_ENABLED
-	if (ScriptDebugger::get_singleton() && ScriptDebugger::get_singleton()->is_profiling()) {
+	if (EngineDebugger::is_profiling("servers")) {
 
 		// Driver time includes server time + effects times
 		// Server time includes effects times
@@ -1030,7 +1031,8 @@ void AudioServer::update() {
 		values.push_back("audio_driver");
 		values.push_back(USEC_TO_SEC(driver_time));
 
-		ScriptDebugger::get_singleton()->add_profiling_frame_data("audio_thread", values);
+		values.push_front("audio_thread");
+		EngineDebugger::profiler_add_frame_data("servers", values);
 	}
 
 	// Reset profiling times
@@ -1137,27 +1139,28 @@ void *AudioServer::audio_data_alloc(uint32_t p_data_len, const uint8_t *p_from_d
 		copymem(ad, p_from_data, p_data_len);
 	}
 
-	audio_data_lock->lock();
-	audio_data[ad] = p_data_len;
-	audio_data_total_mem += p_data_len;
-	audio_data_max_mem = MAX(audio_data_total_mem, audio_data_max_mem);
-	audio_data_lock->unlock();
+	{
+		MutexLock lock(audio_data_lock);
+
+		audio_data[ad] = p_data_len;
+		audio_data_total_mem += p_data_len;
+		audio_data_max_mem = MAX(audio_data_total_mem, audio_data_max_mem);
+	}
 
 	return ad;
 }
 
 void AudioServer::audio_data_free(void *p_data) {
 
-	audio_data_lock->lock();
+	MutexLock lock(audio_data_lock);
+
 	if (!audio_data.has(p_data)) {
-		audio_data_lock->unlock();
 		ERR_FAIL();
 	}
 
 	audio_data_total_mem -= audio_data[p_data];
 	audio_data.erase(p_data);
 	memfree(p_data);
-	audio_data_lock->unlock();
 }
 
 size_t AudioServer::audio_data_get_total_memory_usage() const {
@@ -1384,7 +1387,7 @@ void AudioServer::_bind_methods() {
 
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "bus_count"), "set_bus_count", "get_bus_count");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "device"), "set_device", "get_device");
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "global_rate_scale"), "set_global_rate_scale", "get_global_rate_scale");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "global_rate_scale"), "set_global_rate_scale", "get_global_rate_scale");
 
 	ADD_SIGNAL(MethodInfo("bus_layout_changed"));
 
@@ -1399,7 +1402,6 @@ AudioServer::AudioServer() {
 	singleton = this;
 	audio_data_total_mem = 0;
 	audio_data_max_mem = 0;
-	audio_data_lock = Mutex::create();
 	mix_frames = 0;
 	channel_count = 0;
 	to_mix = 0;
@@ -1413,7 +1415,6 @@ AudioServer::AudioServer() {
 
 AudioServer::~AudioServer() {
 
-	memdelete(audio_data_lock);
 	singleton = NULL;
 }
 
@@ -1531,8 +1532,8 @@ void AudioBusLayout::_get_property_list(List<PropertyInfo> *p_list) const {
 		p_list->push_back(PropertyInfo(Variant::BOOL, "bus/" + itos(i) + "/solo", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
 		p_list->push_back(PropertyInfo(Variant::BOOL, "bus/" + itos(i) + "/mute", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
 		p_list->push_back(PropertyInfo(Variant::BOOL, "bus/" + itos(i) + "/bypass_fx", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
-		p_list->push_back(PropertyInfo(Variant::REAL, "bus/" + itos(i) + "/volume_db", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
-		p_list->push_back(PropertyInfo(Variant::REAL, "bus/" + itos(i) + "/send", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
+		p_list->push_back(PropertyInfo(Variant::FLOAT, "bus/" + itos(i) + "/volume_db", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
+		p_list->push_back(PropertyInfo(Variant::FLOAT, "bus/" + itos(i) + "/send", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));
 
 		for (int j = 0; j < buses[i].effects.size(); j++) {
 			p_list->push_back(PropertyInfo(Variant::OBJECT, "bus/" + itos(i) + "/effect/" + itos(j) + "/effect", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NOEDITOR | PROPERTY_USAGE_INTERNAL));

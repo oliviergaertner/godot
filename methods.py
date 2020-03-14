@@ -1,5 +1,4 @@
 import os
-import os.path
 import re
 import glob
 import subprocess
@@ -137,6 +136,7 @@ def detect_modules():
     includes_cpp = ""
     register_cpp = ""
     unregister_cpp = ""
+    preregister_cpp = ""
 
     files = glob.glob("modules/*")
     files.sort()  # so register_module_types does not change that often, and also plugins are registered in alphabetic order
@@ -154,6 +154,11 @@ def detect_modules():
                 register_cpp += '#ifdef MODULE_' + x.upper() + '_ENABLED\n'
                 register_cpp += '\tregister_' + x + '_types();\n'
                 register_cpp += '#endif\n'
+                preregister_cpp += '#ifdef MODULE_' + x.upper() + '_ENABLED\n'
+                preregister_cpp += '#ifdef MODULE_' + x.upper() + '_HAS_PREREGISTER\n'
+                preregister_cpp += '\tpreregister_' + x + '_types();\n'
+                preregister_cpp += '#endif\n'
+                preregister_cpp += '#endif\n'
                 unregister_cpp += '#ifdef MODULE_' + x.upper() + '_ENABLED\n'
                 unregister_cpp += '\tunregister_' + x + '_types();\n'
                 unregister_cpp += '#endif\n'
@@ -168,6 +173,10 @@ def detect_modules():
 
 %s
 
+void preregister_module_types() {
+%s
+}
+
 void register_module_types() {
 %s
 }
@@ -175,7 +184,7 @@ void register_module_types() {
 void unregister_module_types() {
 %s
 }
-""" % (includes_cpp, register_cpp, unregister_cpp)
+""" % (includes_cpp, preregister_cpp, register_cpp, unregister_cpp)
 
     # NOTE: It is safe to generate this file here, since this is still executed serially
     with open("modules/register_module_types.gen.cpp", "w") as f:
@@ -539,15 +548,31 @@ def detect_darwin_sdk_path(platform, env):
             print("Failed to find SDK path while running xcrun --sdk {} --show-sdk-path.".format(sdk_name))
             raise
 
+def is_vanilla_clang(env):
+    if not using_clang(env):
+        return False
+    version = decode_utf8(subprocess.check_output([env['CXX'], '--version']).strip())
+    return not version.startswith("Apple")
+
+
 def get_compiler_version(env):
-    # Not using this method on clang because it returns 4.2.1 # https://reviews.llvm.org/D56803
-    if using_gcc(env):
-        version = decode_utf8(subprocess.check_output([env['CXX'], '-dumpversion']).strip())
-    else:
-        version = decode_utf8(subprocess.check_output([env['CXX'], '--version']).strip())
-    match = re.search('[0-9][0-9.]*', version)
+    """
+    Returns an array of version numbers as ints: [major, minor, patch].
+    The return array should have at least two values (major, minor).
+    """
+    if not env.msvc:
+        # Not using -dumpversion as some GCC distros only return major, and
+        # Clang used to return hardcoded 4.2.1: # https://reviews.llvm.org/D56803
+        try:
+            version = decode_utf8(subprocess.check_output([env.subst(env['CXX']), '--version']).strip())
+        except (subprocess.CalledProcessError, OSError):
+            print("Couldn't parse CXX environment variable to infer compiler version.")
+            return None
+    else:  # TODO: Implement for MSVC
+        return None
+    match = re.search('[0-9]+\.[0-9.]+', version)
     if match is not None:
-        return match.group().split('.')
+        return list(map(int, match.group().split('.')))
     else:
         return None
 
