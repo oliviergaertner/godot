@@ -39,7 +39,7 @@ void GameplayTagContainer::set_tag(int index, const String &value) {
 }
 
 const String &GameplayTagContainer::get_tag(int index) const {
-	return tags.read()[index];
+	return tags[index];
 }
 
 int GameplayTagContainer::size() const {
@@ -60,7 +60,7 @@ void GameplayTagContainer::append_tags(const Ref<GameplayTagContainer> &tags) {
 	this->tags.append_array(tags->tags);
 }
 
-void GameplayTagContainer::append_array(const PoolStringArray &array) {
+void GameplayTagContainer::append_array(const PackedStringArray &array) {
 	tags.append_array(array);
 }
 
@@ -78,30 +78,26 @@ void GameplayTagContainer::remove_tags(const Ref<GameplayTagContainer> &tags) {
 	}
 }
 
-void GameplayTagContainer::remove_array(const PoolStringArray &array) {
+void GameplayTagContainer::remove_array(const PackedStringArray &array) {
 	for (int i = 0, n = array.size(); i < n; i++) {
 		remove(array[i]);
 	}
 }
 
-void GameplayTagContainer::set_tags(const PoolStringArray &value) {
+void GameplayTagContainer::set_tags(const PackedStringArray &value) {
 	tags = value;
 }
 
-const PoolStringArray &GameplayTagContainer::get_tags() const {
+const PackedStringArray &GameplayTagContainer::get_tags() const {
 	return tags;
 }
 
-String GameplayTagContainer::get_tag_list() {
-	return tags.join(",");
-}
-
 String &GameplayTagContainer::operator[](int index) {
-	return tags.write()[index];
+	return tags.write[index];
 }
 
 const String &GameplayTagContainer::operator[](int index) const {
-	return tags.read()[index];
+	return tags[index];
 }
 
 void GameplayTagContainer::_bind_methods() {
@@ -122,10 +118,9 @@ void GameplayTagContainer::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("remove_array", "tag"), &GameplayTagContainer::remove_array);
 	ClassDB::bind_method(D_METHOD("set_tags", "value"), &GameplayTagContainer::set_tags);
 	ClassDB::bind_method(D_METHOD("get_tags"), &GameplayTagContainer::get_tags);
-	ClassDB::bind_method(D_METHOD("get_tag_list"), &GameplayTagContainer::get_tag_list);
 
 	/** Properties */
-	ADD_PROPERTY(PropertyInfo(Variant::POOL_STRING_ARRAY, "tags"), "set_tags", "get_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::PACKED_STRING_ARRAY, "tags"), "set_tags", "get_tags");
 }
 
 String *begin(Ref<GameplayTagContainer> &tags) {

@@ -30,7 +30,7 @@ void GameplayAbilityTask::task_completed()
 
 void GameplayAbilityTask::_bind_methods()
 {
-    BIND_VMETHOD(MethodInfo("_on_TickTask",PropertyInfo(Variant::REAL, "delta")));
+    BIND_VMETHOD(MethodInfo("_on_TickTask",PropertyInfo(Variant::FLOAT, "delta")));
     BIND_VMETHOD(MethodInfo("_on_task_completed"));
 
     ClassDB::bind_method(D_METHOD("get_owner"), &GameplayAbilityTask::get_owner);

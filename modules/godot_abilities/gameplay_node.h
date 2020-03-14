@@ -86,7 +86,7 @@ public:
 	template <class... Args>
 	Variant execute(const StringName &method, Args &&... args) {
 		if (auto rpc_mode = get_node_rpc_mode(method)) {
-			if (rpc_mode->value() != MultiplayerAPI::RPC_MODE_DISABLED) {
+			if (rpc_mode != MultiplayerAPI::RPC_MODE_DISABLED) {
 				return rpc(method, std::forward<Args>(args)...);
 			}
 		}
