@@ -632,7 +632,7 @@ void GameplayAbility::ability_input() {
 	if (cooldown <= 0 && input_action != StringName() && !active) {
 		auto input = Input::get_singleton();
 
-		if (input->is_action_pressed(input_action)) {
+		if (input->is_action_just_pressed(input_action)) {
 			source->activate_ability(this);
 		}
 	}
@@ -775,6 +775,8 @@ void GameplayAbility::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_ability_tags"), &GameplayAbility::get_ability_tags);
 	ClassDB::bind_method(D_METHOD("set_activation_granted_tags", "value"), &GameplayAbility::set_activation_granted_tags);
 	ClassDB::bind_method(D_METHOD("get_activation_granted_tags"), &GameplayAbility::get_activation_granted_tags);
+	ClassDB::bind_method(D_METHOD("set_source_required_tags", "value"), &GameplayAbility::set_source_required_tags);
+	ClassDB::bind_method(D_METHOD("get_source_required_tags"), &GameplayAbility::get_source_required_tags);
 	ClassDB::bind_method(D_METHOD("set_triggers", "value"), &GameplayAbility::set_triggers);
 	ClassDB::bind_method(D_METHOD("get_triggers"), &GameplayAbility::get_triggers);
 	ClassDB::bind_method(D_METHOD("add_task", "task"), &GameplayAbility::add_task);
@@ -782,6 +784,7 @@ void GameplayAbility::_bind_methods() {
 	/** Properties */
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "ability_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_ability_tags", "get_ability_tags");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activation_granted_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_activation_granted_tags", "get_activation_granted_tags");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "source_required_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_source_required_tags", "get_source_required_tags");
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "triggers"), "set_triggers", "get_triggers");
 
 
