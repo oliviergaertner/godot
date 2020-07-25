@@ -10,6 +10,7 @@
 #include <core/os/os.h>
 #include <scene/main/scene_tree.h>
 #include <scene/main/viewport.h>
+#include <scene/main/window.h>
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <thirdparty/doctest/doctest/doctest.h>
@@ -339,7 +340,7 @@ public:
 		return {};
 	}
 
-	virtual Variant call(const StringName &p_method, const Variant **p_args, int p_argcount, Variant::CallError &r_error) override {
+	virtual Variant call(const StringName &p_method, const Variant **p_args, int p_argcount, Callable::CallError &r_error) override {
 		throw std::logic_error("The method or operation is not implemented.");
 	}
 
@@ -360,6 +361,46 @@ public:
 	}
 
 	virtual ScriptLanguage *get_language() override {
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual Vector<ScriptNetData> get_rpc_methods() const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual uint16_t get_rpc_method_id(const StringName &p_method) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual StringName get_rpc_method(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rpc_mode_by_id(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual Vector<ScriptNetData> get_rset_properties() const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual uint16_t get_rset_property_id(const StringName &p_variable) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual StringName get_rset_property(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rset_mode_by_id(uint16_t p_id) const override
+	{
 		throw std::logic_error("The method or operation is not implemented.");
 	}
 };
@@ -441,6 +482,61 @@ public:
 	}
 
 	virtual bool has_method(const StringName &p_method) const override {
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual Vector<ScriptNetData> get_rpc_methods() const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual uint16_t get_rpc_method_id(const StringName &p_method) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual StringName get_rpc_method(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rpc_mode_by_id(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual Vector<ScriptNetData> get_rset_properties() const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual uint16_t get_rset_property_id(const StringName &p_variable) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual StringName get_rset_property(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rset_mode_by_id(uint16_t p_id) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rpc_mode(const StringName &p_method) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual MultiplayerAPI::RPCMode get_rset_mode(const StringName &p_variable) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual bool inherits_script(const Ref<Script> &) const override
+	{
 		throw std::logic_error("The method or operation is not implemented.");
 	}
 };

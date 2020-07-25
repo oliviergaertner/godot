@@ -29,8 +29,8 @@ void GameplayAttributeData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_current_value"), &GameplayAttributeData::get_current_value);
 
 	/** Properties */
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "base_value"), "set_base_value", "get_base_value");
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "current_value"), "set_current_value", "get_current_value");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "base_value"), "set_base_value", "get_base_value");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "current_value"), "set_current_value", "get_current_value");
 }
 
 void GameplayAttribute::set_attribute_name(const StringName &value) {
@@ -122,10 +122,10 @@ void GameplayAttributeSet::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_attribute_set_name", "value"), &GameplayAttributeSet::set_attribute_set_name);
 	ClassDB::bind_method(D_METHOD("get_attribute_set_name"), &GameplayAttributeSet::get_attribute_set_name);
 
-	BIND_VMETHOD(MethodInfo("_pre_effect_execution", PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::REAL, "magnitude")));
-	BIND_VMETHOD(MethodInfo("_post_effect_execution", PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::REAL, "magnitude")));
-	BIND_VMETHOD(MethodInfo("_pre_attribute_base_change", PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::REAL, "magnitude")));
-	BIND_VMETHOD(MethodInfo("_pre_attribute_change", PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::REAL, "magnitude")));
+	BIND_VMETHOD(MethodInfo("_pre_effect_execution", PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::FLOAT, "magnitude")));
+	BIND_VMETHOD(MethodInfo("_post_effect_execution", PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::FLOAT, "magnitude")));
+	BIND_VMETHOD(MethodInfo("_pre_attribute_base_change", PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::FLOAT, "magnitude")));
+	BIND_VMETHOD(MethodInfo("_pre_attribute_change", PropertyInfo(Variant::OBJECT, "attribute"), PropertyInfo(Variant::FLOAT, "magnitude")));
 
 	/** Properties */
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "attribute_set_name"), "set_attribute_set_name", "get_attribute_set_name");

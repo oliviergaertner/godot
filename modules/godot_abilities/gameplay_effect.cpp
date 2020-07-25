@@ -70,7 +70,7 @@ void GameplayEffectCustomExecutionResult::set_trigger_additional_effects(bool va
 }
 
 void GameplayEffectCustomExecutionScript::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(Variant::OBJECT, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect_node"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::REAL, "normalised_level")));
+	BIND_VMETHOD(MethodInfo(Variant::OBJECT, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect_node"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::FLOAT, "normalised_level")));
 }
 
 Ref<GameplayEffectCustomExecutionResult> GameplayEffectCustomExecution::execute(Node *source, Node *target, GameplayEffectNode *effect, int64_t level, double normalised_level) {
@@ -112,7 +112,7 @@ void GameplayEffectCustomExecutionResult::_bind_methods() {
 }
 
 void GameplayEffectCustomApplicationRequirementScript::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(Variant::BOOL, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::REAL, "normalised_level")));
+	BIND_VMETHOD(MethodInfo(Variant::BOOL, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::FLOAT, "normalised_level")));
 }
 
 bool GameplayEffectCustomApplicationRequirement::execute(const Node *source, const Node *target, const Ref<GameplayEffect> &effect, int64_t level, double normalised_level) {
@@ -215,8 +215,8 @@ void GameplayEffectCue::_bind_methods() {
 	BIND_VMETHOD(MethodInfo("_on_expired", PropertyInfo(Variant::BOOL, "cancelled")));
 
 	/** Properties */
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "minimum_level"), "set_minimum_level", "get_minimum_level");
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "maximum_level"), "set_maximum_level", "get_maximum_level");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "minimum_level"), "set_minimum_level", "get_minimum_level");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maximum_level"), "set_maximum_level", "get_maximum_level");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "cue_tags", PROPERTY_HINT_RESOURCE_TYPE, "GameplayTagContainer"), "set_cue_tags", "get_cue_tags");
 }
 

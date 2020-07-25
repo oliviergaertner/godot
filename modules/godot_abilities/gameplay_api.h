@@ -28,7 +28,6 @@
 
 #include <core/array.h>
 #include <core/func_ref.h>
-#include <core/pool_vector.h>
 #include <core/reference.h>
 #include <core/rid.h>
 #include <core/string_name.h>
@@ -321,36 +320,6 @@ const T *end(const Vector<T> &array) {
 
 template <class T>
 const T *cend(const Vector<T> &array) {
-	return end(array);
-}
-
-template <class T>
-T *begin(PoolVector<T> &array) {
-	return array.write().ptr();
-}
-
-template <class T>
-const T *begin(const PoolVector<T> &array) {
-	return array.read().ptr();
-}
-
-template <class T>
-const T *cbegin(const PoolVector<T> &array) {
-	return begin(array);
-}
-
-template <class T>
-T *end(PoolVector<T> &array) {
-	return begin(array) + array.size();
-}
-
-template <class T>
-const T *end(const PoolVector<T> &array) {
-	return begin(array) + array.size();
-}
-
-template <class T>
-const T *cend(const PoolVector<T> &array) {
 	return end(array);
 }
 

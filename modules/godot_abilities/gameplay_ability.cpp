@@ -7,8 +7,8 @@
 
 #include "core/engine.h"
 
-#include <core/os/input.h>
-#include <core/os/input_event.h>
+#include <core/input/input.h>
+#include <core/input/input_event.h>
 #include <scene/animation/animation_player.h>
 
 #include <algorithm>
@@ -234,7 +234,7 @@ void GameplayAbility::end_ability() {
 		{
 			if(task.is_valid())
 			{
-				task->disconnect("task_completed", this,"task_completed");
+				task->disconnect("task_completed", Callable(this,"task_completed"));
 				task->task_completed();
 			}
 		}
@@ -746,7 +746,7 @@ void GameplayAbility::add_task(Ref<GameplayAbilityTask> task)
 	{
 		active_tasks.push_back(task);
 		task->initialise(source);
-		task->connect("task_completed", this, "task_completed" );
+		task->connect("task_completed", Callable(this, "task_completed"));
 	}
 }
 

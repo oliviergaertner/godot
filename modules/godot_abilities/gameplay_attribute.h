@@ -5,7 +5,6 @@
 #include <core/array.h>
 #include <core/hash_map.h>
 #include <core/io/resource_loader.h>
-#include <core/pool_vector.h>
 #include <core/resource.h>
 #include <core/variant.h>
 #include <core/vector.h>

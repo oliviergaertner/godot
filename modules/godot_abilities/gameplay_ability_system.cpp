@@ -5,8 +5,8 @@
 #include "gameplay_effect_magnitude.h"
 #include "gameplay_tags.h"
 
-#include <core/os/input.h>
-#include <core/os/input_event.h>
+#include <core/input/input.h>
+#include <core/input/input_event.h>
 #include <scene/resources/packed_scene.h>
 
 #include <algorithm>
@@ -1014,7 +1014,7 @@ void GameplayAbilitySystem::apply_modifiers(GameplayEffectNode *node, const Arra
 		double old_value = 0;
 	};
 
-	HashMap<StringName, AttributeChanges> changes;
+	Map<StringName, AttributeChanges> changes;
 
 	for (Ref<GameplayEffectModifier> modifier : modifiers) {
 		auto magnitude = modifier->get_modifier_magnitude()->calculate_magnitude(source, target, effect, node->get_level(), node->get_normalised_level());
@@ -1026,24 +1026,20 @@ void GameplayAbilitySystem::apply_modifiers(GameplayEffectNode *node, const Arra
 		auto value = attribute_data->get_current_value();
 
 		if (!changes.has(attribute_name)) {
-			changes.set(attribute_name, AttributeChanges{ attribute, value });
+			changes[attribute_name]=AttributeChanges{ attribute, value };
 		}
 
 		value = execute_magnitude(magnitude, value, modifier->get_modifier_operation());
 		attribute_data->set_current_value(value);
 	}
 
-	auto pairs = make_gameplay_ptr<const decltype(changes)::Pair *[]>(changes.size());
-	changes.get_key_value_ptr_array(pairs.get());
-
-	for (unsigned i = 0, n = changes.size(); i < n; i++) {
-		auto &&change = pairs[i]->data;
-
+	for (const Map<StringName, AttributeChanges>::Element *E = changes.front(); E; E = E->next())
+	{
 		for (auto &&ability : active_abilities) {
-			ability->process_wait(WaitType::AttributeChanged, change.attribute);
+			ability->process_wait(WaitType::AttributeChanged,  E->get().attribute);
 		}
 
-		target->emit_signal(gameplay_attribute_changed, target, change.attribute, change.old_value);
+		target->emit_signal(gameplay_attribute_changed, target, E->get().attribute, E->get().old_value);
 	}
 }
 

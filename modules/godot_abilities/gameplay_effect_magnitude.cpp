@@ -45,7 +45,7 @@ void ScalableFloat::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_curve"), &ScalableFloat::get_curve);
 
 	/** Properties */
-	ADD_PROPERTY(PropertyInfo(Variant::REAL, "value"), "set_value", "get_value");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "value"), "set_value", "get_value");
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "curve", PROPERTY_HINT_RESOURCE_TYPE, "Curve"), "set_curve", "get_curve");
 }
 
@@ -250,7 +250,7 @@ Ref<Script> CustomCalculatedFloat::get_calculation_script() const {
 }
 
 void CustomMagnitudeCalculator::_bind_methods() {
-	BIND_VMETHOD(MethodInfo(Variant::REAL, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::REAL, "normalised_level")));
+	BIND_VMETHOD(MethodInfo(Variant::FLOAT, "_execute", PropertyInfo(Variant::OBJECT, "source"), PropertyInfo(Variant::OBJECT, "target"), PropertyInfo(Variant::OBJECT, "effect"), PropertyInfo(Variant::INT, "level"), PropertyInfo(Variant::FLOAT, "normalised_level")));
 }
 
 void CustomCalculatedFloat::_bind_methods() {

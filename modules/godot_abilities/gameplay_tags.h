@@ -29,21 +29,19 @@ public:
 
 	void append(const String &tag);
 	void append_tags(const Ref<GameplayTagContainer> &tags);
-	void append_array(const PoolStringArray &array);
+	void append_array(const PackedStringArray &array);
 	void remove(const String &tag);
 	void remove_tags(const Ref<GameplayTagContainer> &tags);
-	void remove_array(const PoolStringArray &array);
+	void remove_array(const PackedStringArray &array);
 
-	void set_tags(const PoolStringArray &value);
-	const PoolStringArray &get_tags() const;
-
-	String get_tag_list();
+	void set_tags(const PackedStringArray &value);
+	const PackedStringArray &get_tags() const;
 
 	String &operator[](int index);
 	const String &operator[](int index) const;
 
 private:
-	PoolStringArray tags;
+	PackedStringArray tags;
 
 	static void _bind_methods();
 };
