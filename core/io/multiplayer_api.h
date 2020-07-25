@@ -28,14 +28,13 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#ifndef MULTIPLAYER_PROTOCOL_H
-#define MULTIPLAYER_PROTOCOL_H
+#ifndef MULTIPLAYER_API_H
+#define MULTIPLAYER_API_H
 
 #include "core/io/networked_multiplayer_peer.h"
 #include "core/reference.h"
 
 class MultiplayerAPI : public Reference {
-
 	GDCLASS(MultiplayerAPI, Reference);
 
 private:
@@ -56,14 +55,14 @@ private:
 	};
 
 	Ref<NetworkedMultiplayerPeer> network_peer;
-	int rpc_sender_id;
+	int rpc_sender_id = 0;
 	Set<int> connected_peers;
 	HashMap<NodePath, PathSentCache> path_send_cache;
 	Map<int, PathGetCache> path_get_cache;
 	int last_send_cache_id;
 	Vector<uint8_t> packet_cache;
-	Node *root_node;
-	bool allow_object_decoding;
+	Node *root_node = nullptr;
+	bool allow_object_decoding = false;
 
 protected:
 	static void _bind_methods();
@@ -148,4 +147,4 @@ public:
 
 VARIANT_ENUM_CAST(MultiplayerAPI::RPCMode);
 
-#endif // MULTIPLAYER_PROTOCOL_H
+#endif // MULTIPLAYER_API_H

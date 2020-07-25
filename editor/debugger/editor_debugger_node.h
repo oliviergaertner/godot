@@ -42,7 +42,6 @@ class ScriptEditorDebugger;
 class TabContainer;
 
 class EditorDebuggerNode : public MarginContainer {
-
 	GDCLASS(EditorDebuggerNode, MarginContainer);
 
 public:
@@ -71,12 +70,13 @@ private:
 		int line = 0;
 
 		bool operator<(const Breakpoint &p_b) const {
-			if (line == p_b.line)
+			if (line == p_b.line) {
 				return source < p_b.source;
+			}
 			return line < p_b.line;
 		}
 
-		Breakpoint(){};
+		Breakpoint() {}
 
 		Breakpoint(const String &p_source, int p_line) {
 			line = p_line;
@@ -85,9 +85,9 @@ private:
 	};
 
 	Ref<EditorDebuggerServer> server;
-	TabContainer *tabs = NULL;
-	Button *debugger_button = NULL;
-	MenuButton *script_menu = NULL;
+	TabContainer *tabs = nullptr;
+	Button *debugger_button = nullptr;
+	MenuButton *script_menu = nullptr;
 
 	Ref<Script> stack_script; // Why?!?
 
@@ -95,7 +95,7 @@ private:
 	int last_warning_count = 0;
 
 	float inspect_edited_object_timeout = 0;
-	EditorDebuggerTree *remote_scene_tree = NULL;
+	EditorDebuggerTree *remote_scene_tree = nullptr;
 	float remote_scene_tree_timeout = 0.0;
 	bool auto_switch_remote_scene_tree = false;
 	bool debug_with_external_editor = false;
@@ -183,7 +183,7 @@ public:
 	void set_camera_override(CameraOverride p_override) { camera_override = p_override; }
 	CameraOverride get_camera_override() { return camera_override; }
 
-	Error start();
+	Error start(const String &p_protocol = "tcp://");
 
 	void stop();
 };

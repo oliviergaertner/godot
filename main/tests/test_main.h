@@ -32,9 +32,10 @@
 #define TEST_MAIN_H
 
 #include "core/list.h"
+#include "core/os/main_loop.h"
 #include "core/ustring.h"
 
 const char **tests_get_names();
-MainLoop *test_main(String p_test, const List<String> &p_args);
+int test_main(int argc, char *argv[]);
 
-#endif
+#endif // TEST_MAIN_H

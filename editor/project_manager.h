@@ -35,7 +35,6 @@
 #include "scene/gui/dialogs.h"
 #include "scene/gui/file_dialog.h"
 #include "scene/gui/scroll_container.h"
-#include "scene/gui/tool_button.h"
 #include "scene/gui/tree.h"
 
 class ProjectDialog;
@@ -43,7 +42,6 @@ class ProjectList;
 class ProjectListFilter;
 
 class ProjectManager : public Control {
-
 	GDCLASS(ProjectManager, Control);
 
 	Button *erase_btn;
@@ -97,7 +95,6 @@ class ProjectManager : public Control {
 	void _restart_confirm();
 	void _exit_dialog();
 	void _scan_begin(const String &p_base);
-	void _global_menu_action(const Variant &p_id, const Variant &p_meta);
 
 	void _confirm_update_settings();
 
@@ -127,7 +124,6 @@ public:
 };
 
 class ProjectListFilter : public HBoxContainer {
-
 	GDCLASS(ProjectListFilter, HBoxContainer);
 
 public:

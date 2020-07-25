@@ -28,14 +28,13 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                */
 /*************************************************************************/
 
-#ifndef GET_TYPE_INFO_H
-#define GET_TYPE_INFO_H
+#ifndef TYPE_INFO_H
+#define TYPE_INFO_H
 
 #ifdef DEBUG_METHODS_ENABLED
 
 template <bool C, typename T = void>
 struct EnableIf {
-
 	typedef T type;
 };
 
@@ -45,19 +44,16 @@ struct EnableIf<false, T> {
 
 template <typename, typename>
 struct TypesAreSame {
-
 	static bool const value = false;
 };
 
 template <typename A>
 struct TypesAreSame<A, A> {
-
 	static bool const value = true;
 };
 
 template <typename B, typename D>
 struct TypeInherits {
-
 	static D *get_d();
 
 	static char (&test(B *))[1];
@@ -144,6 +140,9 @@ MAKE_TYPE_INFO(String, Variant::STRING)
 MAKE_TYPE_INFO(Vector2, Variant::VECTOR2)
 MAKE_TYPE_INFO(Rect2, Variant::RECT2)
 MAKE_TYPE_INFO(Vector3, Variant::VECTOR3)
+MAKE_TYPE_INFO(Vector2i, Variant::VECTOR2I)
+MAKE_TYPE_INFO(Rect2i, Variant::RECT2I)
+MAKE_TYPE_INFO(Vector3i, Variant::VECTOR3I)
 MAKE_TYPE_INFO(Transform2D, Variant::TRANSFORM2D)
 MAKE_TYPE_INFO(Plane, Variant::PLANE)
 MAKE_TYPE_INFO(Quat, Variant::QUAT)
@@ -174,7 +173,7 @@ MAKE_TYPE_INFO(IP_Address, Variant::STRING)
 template <>
 struct GetTypeInfo<ObjectID> {
 	static const Variant::Type VARIANT_TYPE = Variant::INT;
-	static const GodotTypeInfo::Metadata METADATA = GodotTypeInfo::METADATA_NONE;
+	static const GodotTypeInfo::Metadata METADATA = GodotTypeInfo::METADATA_INT_IS_UINT64;
 	static inline PropertyInfo get_class_info() {
 		return PropertyInfo(Variant::INT, String(), PROPERTY_HINT_INT_IS_OBJECTID);
 	}
@@ -201,7 +200,7 @@ struct GetTypeInfo<const Variant &> {
 
 #define MAKE_TEMPLATE_TYPE_INFO(m_template, m_type, m_var_type)                       \
 	template <>                                                                       \
-	struct GetTypeInfo<m_template<m_type> > {                                         \
+	struct GetTypeInfo<m_template<m_type>> {                                          \
 		static const Variant::Type VARIANT_TYPE = m_var_type;                         \
 		static const GodotTypeInfo::Metadata METADATA = GodotTypeInfo::METADATA_NONE; \
 		static inline PropertyInfo get_class_info() {                                 \
@@ -259,8 +258,9 @@ struct GetTypeInfo<const T *, typename EnableIf<TypeInherits<Object, T>::value>:
 
 template <typename T>
 inline StringName __constant_get_enum_name(T param, const String &p_constant) {
-	if (GetTypeInfo<T>::VARIANT_TYPE == Variant::NIL)
+	if (GetTypeInfo<T>::VARIANT_TYPE == Variant::NIL) {
 		ERR_PRINT("Missing VARIANT_ENUM_CAST for constant's enum: " + p_constant);
+	}
 	return GetTypeInfo<T>::get_class_info().class_name;
 }
 
@@ -273,4 +273,4 @@ inline StringName __constant_get_enum_name(T param, const String &p_constant) {
 
 #endif // DEBUG_METHODS_ENABLED
 
-#endif // GET_TYPE_INFO_H
+#endif // TYPE_INFO_H

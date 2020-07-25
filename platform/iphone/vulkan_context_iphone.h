@@ -1,5 +1,5 @@
 /*************************************************************************/
-/*  vulkan_context_osx.h                                                 */
+/*  vulkan_context_iphone.h                                              */
 /*************************************************************************/
 /*                       This file is part of:                           */
 /*                           GODOT ENGINE                                */
@@ -35,7 +35,6 @@
 // #import <UIKit/UIKit.h>
 
 class VulkanContextIPhone : public VulkanContext {
-
 	virtual const char *_get_platform_surface_extension() const;
 
 public:
