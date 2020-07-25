@@ -7,8 +7,8 @@
 
 #include "core/engine.h"
 
-#include <core/os/input.h>
-#include <core/os/input_event.h>
+#include <core/input/input.h>
+#include <core/input/input_event.h>
 #include <scene/animation/animation_player.h>
 
 #include <algorithm>

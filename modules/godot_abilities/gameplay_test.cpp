@@ -10,6 +10,7 @@
 #include <core/os/os.h>
 #include <scene/main/scene_tree.h>
 #include <scene/main/viewport.h>
+#include <scene/main/window.h>
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <thirdparty/doctest/doctest/doctest.h>
@@ -530,6 +531,11 @@ public:
 	}
 
 	virtual MultiplayerAPI::RPCMode get_rset_mode(const StringName &p_variable) const override
+	{
+		throw std::logic_error("The method or operation is not implemented.");
+	}
+
+	virtual bool inherits_script(const Ref<Script> &) const override
 	{
 		throw std::logic_error("The method or operation is not implemented.");
 	}
