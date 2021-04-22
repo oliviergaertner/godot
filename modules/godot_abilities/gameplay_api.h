@@ -26,15 +26,14 @@
 #define GAMEPLAY_ABILITIES_API
 #endif
 
-#include <core/array.h>
-#include <core/func_ref.h>
-#include <core/reference.h>
-#include <core/rid.h>
-#include <core/string_name.h>
+#include <core/variant/array.h>
+#include <core/object/reference.h>
+#include <core/templates/rid.h>
+#include <core/string/string_name.h>
 #include <core/typedefs.h>
-#include <core/ustring.h>
-#include <core/variant.h>
-#include <core/vector.h>
+#include <core/string/ustring.h>
+#include <core/variant/variant.h>
+#include <core/templates/vector.h>
 #include <memory.h>
 
 #include <algorithm>
@@ -226,11 +225,11 @@ public:
 	}
 
 	Variant *begin() {
-		return empty() ? nullptr : &operator[](0);
+		return is_empty() ? nullptr : &operator[](0);
 	}
 
 	const Variant *begin() const {
-		return empty() ? nullptr : &operator[](0);
+		return is_empty() ? nullptr : &operator[](0);
 	}
 
 	const Variant *cbegin() const {
@@ -270,11 +269,11 @@ private:
 };
 
 inline Variant *begin(Array &array) {
-	return array.empty() ? nullptr : &array[0];
+	return array.is_empty() ? nullptr : &array[0];
 }
 
 inline const Variant *begin(const Array &array) {
-	return array.empty() ? nullptr : &array[0];
+	return array.is_empty() ? nullptr : &array[0];
 }
 
 inline const Variant *cbegin(const Array &array) {
@@ -282,11 +281,11 @@ inline const Variant *cbegin(const Array &array) {
 }
 
 inline Variant *end(Array &array) {
-	return array.empty() ? nullptr : &array[0] + array.size();
+	return array.is_empty() ? nullptr : &array[0] + array.size();
 }
 
 inline const Variant *end(const Array &array) {
-	return array.empty() ? nullptr : &array[0] + array.size();
+	return array.is_empty() ? nullptr : &array[0] + array.size();
 }
 
 inline const Variant *cend(const Array &array) {

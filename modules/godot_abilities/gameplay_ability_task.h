@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gameplay_node.h"
-#include <core/reference.h>
+#include <core/object/reference.h>
 
 class GameplayAbilitySystem;
 

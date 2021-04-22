@@ -3,7 +3,7 @@
 #include <algorithm>
 
 bool GameplayTagContainer::has_tag(const String &tag) const {
-	if (tag.empty()) {
+	if (tag.is_empty()) {
 		return true;
 	}
 

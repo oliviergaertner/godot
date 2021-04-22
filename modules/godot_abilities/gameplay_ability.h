@@ -2,8 +2,8 @@
 
 #include "gameplay_node.h"
 
-#include <core/hash_map.h>
-#include <core/resource.h>
+#include <core/templates/hash_map.h>
+#include <core/io/resource.h>
 #include <scene/main/node.h>
 #include "gameplay_ability_task.h"
 

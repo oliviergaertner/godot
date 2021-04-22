@@ -6,7 +6,7 @@
 #include "gameplay_effect_magnitude.h"
 #include "gameplay_tags.h"
 
-#include <core/class_db.h>
+#include <core/object/class_db.h>
 #include <core/os/os.h>
 #include <scene/main/scene_tree.h>
 #include <scene/main/viewport.h>
@@ -67,10 +67,6 @@ final_action<F> finally(F &&f) noexcept {
 class TestSceneTree : public SceneTree {
 public:
 	virtual ~TestSceneTree() = default;
-
-	virtual void init() override {
-		SceneTree::init();
-	}
 
 	virtual bool idle(float p_time) override {
 		bool result = SceneTree::idle(p_time);

@@ -592,7 +592,7 @@ void GameplayAbilitySystem::add_tags(const Ref<GameplayTagContainer> &tags) {
 	active_tags->append_tags(tags);
 
 	for (auto &&ability : abilities) {
-		if (ability->get_triggers().empty()) {
+		if (ability->get_triggers().is_empty()) {
 			continue;
 		}
 

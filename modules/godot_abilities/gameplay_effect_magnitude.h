@@ -2,8 +2,8 @@
 
 #include "gameplay_node.h"
 
-#include <core/resource.h>
-#include <core/script_language.h>
+#include <core/io/resource.h>
+#include <core/object/script_language.h>
 #include <scene/resources/curve.h>
 
 class GameplayAttribute;

@@ -3,8 +3,8 @@
 #include "gameplay_node.h"
 #include "gameplay_tags.h"
 
-#include <core/hash_map.h>
-#include <core/vector.h>
+#include <core/templates/hash_map.h>
+#include <core/templates/vector.h>
 
 #include <cmath>
 #include <random>

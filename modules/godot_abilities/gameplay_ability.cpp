@@ -5,7 +5,7 @@
 #include "gameplay_tags.h"
 #include "gameplay_ability_task.h"
 
-#include "core/engine.h"
+#include "core/config/engine.h"
 
 #include <core/input/input.h>
 #include <core/input/input_event.h>
@@ -261,7 +261,7 @@ double GameplayAbility::get_remaining_cooldown() const {
 	auto tags = cooldown_effect->get_effect_tags();
 	auto effects = source->query_active_effects(tags);
 
-	if (effects.empty()) {
+	if (effects.is_empty()) {
 		return 0;
 	}
 

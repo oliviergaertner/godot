@@ -2,8 +2,8 @@
 
 #include "gameplay_node.h"
 
-#include <core/resource.h>
-#include <core/variant.h>
+#include <core/io/resource.h>
+#include <core/variant/variant.h>
 
 class GAMEPLAY_ABILITIES_API GameplayTagContainer : public GameplayResource {
 	GDCLASS(GameplayTagContainer, GameplayResource);

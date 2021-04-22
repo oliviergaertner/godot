@@ -9,7 +9,7 @@
 #include "gameplay_tags.h"
 #include "gameplay_ability_task.h"
 
-#include <core/class_db.h>
+#include <core/object/class_db.h>
 
 void register_godot_abilities_types() {
 	/** Nodes */

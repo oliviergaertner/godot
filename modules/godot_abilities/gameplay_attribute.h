@@ -2,12 +2,12 @@
 
 #include "gameplay_node.h"
 
-#include <core/array.h>
-#include <core/hash_map.h>
+#include <core/variant/array.h>
+#include <core/templates/hash_map.h>
 #include <core/io/resource_loader.h>
-#include <core/resource.h>
-#include <core/variant.h>
-#include <core/vector.h>
+#include <core/io/resource.h>
+#include <core/variant/variant.h>
+#include <core/templates/vector.h>
 
 class GameplayEffect;
 class GameplayAbilitySystem;

@@ -3,8 +3,8 @@
 #include "gameplay_api.h"
 
 #include <core/os/thread.h>
-#include <core/resource.h>
-#include <core/vector.h>
+#include <core/io/resource.h>
+#include <core/templates/vector.h>
 #include <scene/main/node.h>
 
 class GAMEPLAY_ABILITIES_API GameplayNode : public Node {
